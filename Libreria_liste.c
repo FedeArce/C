@@ -10,23 +10,24 @@ list_t* push(list_t*, int);
 list_t* append(list_t*, int);
 list_t* increasing(list_t*, int);
 list_t* pop(list_t*);
-list_t* delete(list_t* head, int i);
-list_t* exists(list_t* head, int i);
-int lenght(list_t* head);
+list_t* delete(list_t*, int);
+list_t* exists(list_t*, int);
+int lenght(list_t*);
+int contlist(list_t*, int);
 void printlist(list_t*);
 
 int main(int argc, char* argv[]){
     list_t* l=NULL;
-    int numbers[dim]={1,2,3,4,5,6,7,8,3,0}, i;
+    int numbers[dim]={1,2,3,4,5,3,3,8,3,0}, i;
 
     for(i=0; i<dim; i++){
         l=append(l,numbers[i]);
     }
-    l=pop(l);
-    l=delete(l, 3);
-    printf("---\n%d\n---\n", lenght(l));
+    //printf("---\n%d\n---\n", contlist(l, 3));
     printlist(l);
-
+    printf("----\n");
+    l=delete(l, 3);
+    printlist(l);
     return 0;
 }
 
@@ -89,12 +90,14 @@ list_t* pop(list_t* head){
 }
 
 list_t* delete(list_t* head, int i){
-    list_t *l=head;
+    list_t *l=head, *t;
     
     if(l){
         while(l->next){
             if(l->next->val==i){
+                t=l->next;
                 l->next=l->next->next;
+                free(t);
             }
             else
                 l=l->next;
@@ -134,6 +137,20 @@ int lenght(list_t* head){
     }
     
     return i;
+}
+
+int contlist(list_t *head, int i){
+    list_t *l=head;
+    int cont;
+
+    cont=0;
+    while(l->next){
+        if(l->val == i)
+            cont++;
+        l=l->next;
+    }
+
+    return cont;
 }
 
 void printlist(list_t* head){
