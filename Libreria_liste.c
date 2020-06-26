@@ -84,8 +84,9 @@ list_t* decreasing(list_t* head, int i){
 }
 
 list_t* pop(list_t* head){
+    list_t* t=head;
     head=head->next;
-
+    free(t);
     return head;
 }
 

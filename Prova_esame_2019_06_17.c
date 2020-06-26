@@ -3,7 +3,7 @@
 #include <string.h>
 
 #define dim 30
-#define lenght 10
+#define lenght 11
 
 typedef struct list_s{
     int val;
@@ -17,6 +17,7 @@ void leggiFile(char*, char*);
 list_t* append(list_t*, int);
 int contlist(list_t*, int);
 list_t *delfromlist(list_t*, int);
+list_t* pop(list_t*);
 list_t* delete(list_t*, int);
 void printlist(list_t*);
 
@@ -24,13 +25,13 @@ void printlist(list_t*);
 
 int main(int argc, char* argv[]){
     list_t* l=NULL;
-    int numbers[lenght]={3,3,1,2,4,3,5,3,5,4}, i;
+    int numbers[lenght]={1,7,1,2,4,3,5,3,5,4,4}, i;
 
     for(i=0; i<lenght; i++){
         l=append(l,numbers[i]);
     }
     printlist(l);
-    printf("-----");
+    printf("-----\n");
     l=delfromlist(l,3);
     printlist(l);
 }
@@ -94,15 +95,17 @@ list_t *delfromlist(list_t *head, int x){
     list_t *l=head;
 
     while(l->next){
+        
         if(contlist(l, l->val) >= x){
-            
-            l=delete(l, l->val);
-            //printlist(l);
+            printf("%d: %d\n", l->val, contlist(l, l->val));
+            head=delete(l, l->val);
+            l=head;
         }
         else
             l=l->next;
+        printlist(head);
     }
-
+    
     return head;
 }
 
@@ -116,32 +119,37 @@ int contlist(list_t *head, int n){
             cont++;
         l=l->next;
     }
-    //printf("%d: %d\n", n, cont);
+    if(l->val == n)
+        cont++;
     return cont;
 }
 
 list_t* delete(list_t* head, int i){
-    list_t *l=head, *t;
+    list_t *l=head, *t=NULL;
     
     if(l){
-        if(l->val == i){
-            t=l;
-            l=l->next;
-            free(t);
-        }
         while(l->next){
             if(l->next->val==i){
                 t=l->next;
                 l->next=l->next->next;
                 free(t);
             }
-            else
-                l=l->next;
+            l=l->next;
         }
         if(l->val == i)
             l=NULL;
+        if(head->val == i){
+            head=pop(head);
+        }
     }
-    
+
+    return head;
+}
+
+list_t* pop(list_t* head){
+    list_t* t=head;
+    head=head->next;
+    free(t);
     return head;
 }
 
@@ -167,7 +175,8 @@ void printlist(list_t* head){
     list_t* l=head;
     
     while(l){
-        printf("%d\n", l->val);
+        printf("%d -> ", l->val);
         l=l->next;
     }
+    printf("null\n");
 }
