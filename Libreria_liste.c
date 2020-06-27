@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define dim 10
+
 typedef struct list_s{
     int val;
     struct list_s *next;
