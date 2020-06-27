@@ -95,15 +95,15 @@ list_t *delfromlist(list_t *head, int x){
     list_t *l=head;
 
     while(l->next){
-        
+        /*printlist(l);*/
         if(contlist(l, l->val) >= x){
-            printf("%d: %d\n", l->val, contlist(l, l->val));
-            head=delete(l, l->val);
-            l=head;
+            /*printf("%d: %d\n", l->val, contlist(l, l->val));*/
+            l=delete(head, l->val);
+            
         }
         else
             l=l->next;
-        printlist(head);
+        /*printlist(head);*/
     }
     
     return head;
@@ -125,7 +125,7 @@ int contlist(list_t *head, int n){
 }
 
 list_t* delete(list_t* head, int i){
-    list_t *l=head, *t=NULL;
+    list_t *l=head, *t;
     
     if(l){
         while(l->next){
@@ -134,12 +134,15 @@ list_t* delete(list_t* head, int i){
                 l->next=l->next->next;
                 free(t);
             }
-            l=l->next;
+            else
+                l=l->next;
         }
         if(l->val == i)
             l=NULL;
-        if(head->val == i){
-            head=pop(head);
+        if(head->val==i){
+            t=head;
+            head=head->next;
+            free(t);
         }
     }
 

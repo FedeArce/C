@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define dim 10
+#define dim 1
 
 typedef struct list_s{
     int val;
@@ -19,12 +19,12 @@ void printlist(list_t*);
 
 int main(int argc, char* argv[]){
     list_t* l=NULL;
-    int numbers[dim]={1,2,3,4,5,3,3,8,3,0}, i;
+    int numbers[dim]={3}, i;
 
     for(i=0; i<dim; i++){
         l=append(l,numbers[i]);
     }
-    //printf("---\n%d\n---\n", contlist(l, 3));
+    printf("---\n%d\n---\n", contlist(l, 3));
     printlist(l);
     printf("----\n");
     l=delete(l, 3);
@@ -106,8 +106,13 @@ list_t* delete(list_t* head, int i){
         }
         if(l->val == i)
             l=NULL;
+        if(head->val==i){
+            t=head;
+            head=head->next;
+            free(t);
+        }
     }
-    
+
     return head;
 }
 
@@ -159,7 +164,8 @@ void printlist(list_t* head){
     list_t* l=head;
     
     while(l){
-        printf("%d\n", l->val);
+        printf("%d -> ", l->val);
         l=l->next;
     }
+    printf("(null)\n");
 }
